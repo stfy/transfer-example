@@ -1,5 +1,5 @@
 const {We} = require('@wavesenterprise/sdk')
-const {TRANSACTIONS} = require('@wavesenterprise/transactions-factory')
+const {TRANSACTIONS, TRANSACTION_TYPES} = require('@wavesenterprise/transactions-factory')
 const {Keypair} = require('@wavesenterprise/signer')
 
 const args = process.argv.slice(2)
@@ -23,13 +23,14 @@ async function main() {
 
     const sdk = new We(NODE_URL);
     const signerKeypair = await Keypair.fromExistingSeedPhrase(SEED)
+    const cfg = await sdk.node.config()
 
     const tx = TRANSACTIONS.Transfer.V3({
         attachment: "",
         senderPublicKey: SENDER_PK,
         amount: Number(AMOUNT),
         recipient: RECIPIENT,
-        fee: 100000,
+        fee: cfg.minimumFee[TRANSACTION_TYPES.Transfer],
     })
 
     const signedTx = await sdk.signer.getSignedTx(tx, signerKeypair);
