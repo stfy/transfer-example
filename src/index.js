@@ -19,7 +19,7 @@ console.log(
     })
 
 async function main() {
-    const NODE_URL = 'https://client.wavesenterprise.com/node-0';
+    const NODE_URL = 'https://client.we.vote/node-0';
 
     const sdk = new We(NODE_URL);
     const signerKeypair = await Keypair.fromExistingSeedPhrase(SEED)
@@ -27,7 +27,7 @@ async function main() {
     const tx = TRANSACTIONS.Transfer.V3({
         attachment: "",
         senderPublicKey: SENDER_PK,
-        amount: AMOUNT,
+        amount: Number(AMOUNT),
         recipient: RECIPIENT,
         fee: 100000,
     })
